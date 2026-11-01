@@ -17,5 +17,5 @@ The analysis focuses on the following key questions:
 
 ## Dataset
 
-The project uses the [goodbooks-10k Dataset].
+The project uses the [goodbooks-10k dataset](https://github.com/zygmuntz/goodbooks-10k).
 The dataset contains approximately 10,000 books and 6 million user ratings.
