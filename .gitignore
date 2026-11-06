@@ -1,0 +1,14 @@
+# Ignore raw datasets
+data/raw (dati grezzi)/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore system and editor files
+.DS_Store
+.vscode/
