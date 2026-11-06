@@ -1,5 +1,5 @@
 # Ignore raw datasets
-data/raw (dati grezzi)/
+data/raw (dati_grezzi)/
 
 # Ignore Python cache files
 __pycache__/
