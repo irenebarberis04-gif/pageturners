@@ -459,69 +459,6 @@ print("Books with different work rating counts:")
 print((~matching_work_ratings).sum())
 
 
-# 17. Descriptive statistics for popularity and average rating
-
-# Select the variables needed for the first research question
-popularity_data = books[
-    ["work_ratings_count", "average_rating"]
-]
-
-# Calculate descriptive statistics
-print("Descriptive statistics for popularity and average rating:")
-print(popularity_data.describe())
-
-
-# 18. Correlation between popularity and average rating
-
-# Calculate the Pearson correlation coefficient
-correlation = popularity_data[
-    "work_ratings_count"
-].corr(popularity_data["average_rating"])
-
-print("Pearson correlation between popularity and average rating:")
-print(round(correlation, 3))
-
-
-# 19. Scatter plot: popularity vs average rating
-
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(10, 6))
-
-# Create the scatter plot
-plt.scatter(
-    popularity_data["work_ratings_count"],
-    popularity_data["average_rating"],
-    alpha=0.3
-)
-
-# Use a logarithmic scale for popularity
-plt.xscale("log")
-
-# Add title and axis labels
-plt.title("Popularity vs Average Rating")
-plt.xlabel("Number of Ratings (log scale)")
-plt.ylabel("Average Rating")
-
-plt.savefig(
-    "figures/popularity_vs_rating.png",
-    dpi=300,
-    bbox_inches="tight"
-)
-# Display the plot
-#plt.show()
-
-
-# 21. Spearman correlation between popularity and average rating
-spearman_correlation = popularity_data[
-    "work_ratings_count"
-].corr(
-    popularity_data["average_rating"],
-    method="spearman"
-)
-
-print("Spearman correlation between popularity and average rating:")
-print(round(spearman_correlation, 3))
 
 
 
