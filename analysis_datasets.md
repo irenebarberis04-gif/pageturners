@@ -295,7 +295,81 @@ Each tag has a unique identifier and name.
 **Figure:** `figures/popularity_vs_rating.png`
 
 
+## RQ3 — Do Older Books Receive Different Average Ratings Compared to More Recent Books?
 
+### Objective
+This analysis investigates whether a book's original publication year is associated with its average Goodreads rating.
+
+### Data Preparation
+The analysis focuses on two variables from `books.csv`:
+- `original_publication_year`: the year in which the book was originally published.
+- `average_rating`: the book's average Goodreads rating.
+
+Books with missing publication years were excluded, leaving **9,979 books** out of the original 10,000.
+
+All available publication years were retained for the correlation analysis. Different time ranges were selected for visualization to improve readability.
+
+### Statistical Analysis
+Two correlation coefficients were calculated:
+- **Pearson correlation: 0.016**
+- **Spearman correlation: -0.027**
+
+Both coefficients are very close to zero, indicating a negligible overall linear or monotonic relationship between publication year and average rating.
+
+### Visualizations
+
+#### 1. Publication Year vs Average Rating
+
+![Publication Year vs Average Rating](figures/publication_year_vs_rating.png)
+
+A scatter plot was created to examine the relationship between publication year and average rating.
+
+Only books published from the year 1000 onward were displayed to improve readability. The plot does not reveal a clear increasing or decreasing trend.
+
+#### 2. Average Rating by Decade
+
+![Average Rating by Decade](figures/average_rating_by_decade.png)
+
+Books published from 1800 onward were grouped by decade.
+
+A bubble chart displays the average rating for each decade, with bubble size representing the number of books in that decade.
+
+Average ratings remain relatively stable, generally around 4 stars. Earlier decades contain fewer books, so their averages should be interpreted with caution.
+
+#### 3. Average Rating by Publication Year (1980–2016)
+
+![Average Rating by Publication Year](figures/average_rating_by_year.png)
+
+A line chart displays annual average ratings between 1980 and 2016.
+
+The year 2017 was excluded from this visualization because it contains only 11 books, although it remains included in the overall correlation analysis.
+
+The chart reveals some fluctuations over time but no consistent increasing or decreasing trend.
+
+#### 4. Animated Publication Year Chart
+
+An interactive Plotly animation was created to show how average ratings evolve across publication years from 1980 to 2016.
+
+**[Open the animated chart](figures/animated_publication_year.html)**
+
+The animation includes a Play button that progressively displays the annual data.
+
+### Key Findings
+- Publication year has a negligible overall correlation with average rating.
+- Average ratings remain relatively stable across decades.
+- Annual fluctuations exist, but no consistent temporal trend emerges.
+- The number of books varies considerably across publication periods, which affects how reliably group averages can be interpreted.
+
+### Limitations
+The Goodbooks-10k dataset is not representative of all published books.
+
+Furthermore, the analysis uses book-level average ratings rather than individual reader ratings. Each book contributes equally to the yearly and decadal averages, regardless of how many ratings it received.
+
+### Conclusion
+
+**There is no clear evidence of a strong overall relationship between a book's original publication year and its average Goodreads rating.**
+
+Older books are not systematically rated higher or lower than more recent books in this dataset.
 
 
 
