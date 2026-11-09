@@ -19,3 +19,14 @@ The analysis focuses on the following key questions:
 
 The project uses the [goodbooks-10k dataset](https://github.com/zygmuntz/goodbooks-10k).
 The dataset contains approximately 10,000 books and 6 million user ratings.
+
+
+## Interactive Streamlit Application
+
+An interactive web application was developed using Streamlit and Plotly to explore how readers' rating distributions differ across books.
+
+Users can search for a book by title or author, view its average rating, and explore the percentage of 1-star to 5-star ratings through an interactive bar chart.
+
+The application is publicly available here:
+
+[Explore the Page Turners App](https://pageturners-apjsanp6cplbz5cwapjyd5.streamlit.app/)
