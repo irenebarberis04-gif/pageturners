@@ -156,13 +156,15 @@ app_columns = [
     "ratings_2",
     "ratings_3",
     "ratings_4",
-    "ratings_5"
+    "ratings_5",
+    "original_publication_year"
 ]
 
 books[app_columns].to_csv(
     "data/books_for_app.csv",
     index=False
 )
+
 
 
 
