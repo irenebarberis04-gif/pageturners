@@ -45,35 +45,42 @@ if page == "Overview":
 
     st.divider()
 
+    left, center, right = st.columns([2, 6, 2])
+
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric("Books analyzed", f"{len(books):,}")
+        with st.container(border=True):
+            st.metric("Books analyzed", f"{len(books):,}")
 
     with col2:
-        st.metric("Research questions", "3")
+        with st.container(border=True):
+            st.metric("Research questions", "3")
 
     with col3:
-        st.metric("Dataset", "Goodbooks-10k")
+        with st.container(border=True):
+            st.metric("Dataset", "Goodbooks-10k")
 
+    
+    # Research questions
+    st.divider()
     st.subheader("Research questions")
 
-    st.markdown(
-        """
-        **01 — Popularity & Ratings**
+    col1, col2, col3 = st.columns(3, gap="medium")
 
-        Does a book's popularity relate to its average rating?
+    with col1:
+        st.markdown("**01 — Popularity & Ratings**")
+        st.write("Does a book's popularity relate to its average rating?")
 
-        **02 — Rating distributions**
+    with col2:
+        st.markdown("**02 — Rating distributions**")
+        st.write("How do readers' rating distributions differ across books?")
 
-        How do readers' rating distributions differ across books?
-
-        **03 — Publication year**
-
-        Does publication year influence average ratings?
-        """
-    )
-
+    with col3:
+        st.markdown("**03 — Publication year**")
+        st.write("Does publication year influence average ratings?")
+    
+    
 # Page 2: Popularity & Ratings
 elif page == "Popularity & Ratings":
     #page title and research question
@@ -89,10 +96,12 @@ elif page == "Popularity & Ratings":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric("Pearson correlation", "0.045")
+        with st.container(border=True):
+            st.metric("Pearson correlation", "0.045")
 
     with col2:
-        st.metric("Spearman correlation", "0.065")
+        with st.container(border=True):
+            st.metric("Spearman correlation", "0.065")
 
     st.divider()
 
@@ -109,10 +118,11 @@ elif page == "Popularity & Ratings":
     # Display the main finding
     st.markdown(
         """
-        **Conclusion**
+        **Conclusions**
 
-        Popularity has a very weak association with average ratings.
-        Books receiving more ratings do not necessarily receive higher scores.
+        Both Pearson (0.045) and Spearman (0.065) correlations are close to zero. 
+        This indicates a negligible relationship between the number of ratings and average rating. 
+        Therefore, more popular books do not necessarily receive higher ratings.
         """
     )
 
@@ -128,8 +138,8 @@ elif page == "Rating distributions":
     )
 
     st.divider()
-
-    st.metric("4–5 Star Ratings", "73.31%")
+    with st.container(border=True):
+        st.metric("4–5 Star ratings", "73.31%")
 
     st.caption("Nearly three-quarters of all ratings are 4 or 5 stars.")
 
@@ -224,9 +234,9 @@ elif page == "Rating distributions":
     st.markdown("""
     **Conclusions**
 
-    Rating distributions vary considerably across books.
-    Although high ratings dominate overall, individual books
-    can show very different patterns of reader evaluations.
+    Overall, 73,31% of ratings are 4 or 5 stars, indicating a predominance of positive evaluations. 
+    However, rating distributions vary across individual books, 
+    showing that readers' opinions are not equally distributed across all titles.
     """)
 
     
@@ -245,10 +255,12 @@ elif page == "Publication year":
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric("Pearson correlation", "0.016")
+        with st.container(border=True):
+            st.metric("Pearson correlation", "0.016")
 
     with col2:
-        st.metric("Spearman correlation", "-0.027")
+        with st.container(border=True):
+            st.metric("Spearman correlation", "-0.027")
 
     st.divider()
 
@@ -331,9 +343,10 @@ elif page == "Publication year":
     )
 
     st.markdown("""
-    **Observations**
+    **Conclusions**
 
-    Publication year has a very weak association with average ratings.
-    Older and newer books do not show a clear overall difference
-    in readers' evaluations.
+    Both Pearson (0.016) and Spearman (-0.027) correlations are close to zero, 
+    indicating a negligible relationship between publication year and average rating. 
+    Therefore, older and more recently published books do not show a clear 
+    overall difference in their average ratings.
     """)
