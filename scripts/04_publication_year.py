@@ -2,7 +2,6 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 
 # Load the dataset
 books = pd.read_csv("data/raw (dati_grezzi)/books.csv")
@@ -34,7 +33,7 @@ print("Spearman correlation:", round(spearman_corr, 3))
 
 plt.figure(figsize=(10, 6))
 
-# Select books published from 1900 onwards
+# Select books published from 1000 onwards
 modern_books = books_with_year[
     books_with_year["original_publication_year"] >= 1000
 ]
@@ -48,9 +47,9 @@ plt.scatter(
 )
 
 
-plt.title("Publication Year vs Average Rating")
-plt.xlabel("Original Publication Year")
-plt.ylabel("Average Rating")
+plt.title("Publication year vs average rating")
+plt.xlabel("Original publication year")
+plt.ylabel("Average rating")
 
 plt.savefig(
     "figures/publication_year_vs_rating.png",
@@ -94,9 +93,9 @@ plt.scatter(
     alpha=0.6
 )
 
-plt.title("Average Book Rating by Decade")
-plt.xlabel("Publication Decade")
-plt.ylabel("Average Rating")
+plt.title("Average book rating by decade")
+plt.xlabel("Publication decade")
+plt.ylabel("Average rating")
 
 plt.xticks(rating_by_decade.index, rotation=45)
 plt.grid(alpha=0.3)
@@ -114,9 +113,9 @@ plt.savefig(
     bbox_inches="tight"
 )
 
-#plt.show()
+plt.close()
 
-# Select books published between 1980 and 2017
+# Select books published between 1980 and 2016
 recent_books = books_with_year[
     (books_with_year["original_publication_year"] >= 1980) &
     (books_with_year["original_publication_year"] <= 2016)
@@ -127,7 +126,7 @@ rating_by_year = recent_books.groupby(
     "original_publication_year"
 )["average_rating"].mean()
 
-print("\nAverage rating by year (1980-2017):")
+print("\nAverage rating by year (1980-2016):")
 print(rating_by_year.round(3))
 
 # Count the number of books published each year
@@ -150,9 +149,9 @@ plt.plot(
     markersize=4
 )
 
-plt.title("Average Book Rating by Publication Year (1980-2016)")
-plt.xlabel("Original Publication Year")
-plt.ylabel("Average Rating")
+plt.title("Average book rating by publication year (1980-2016)")
+plt.xlabel("Original publication year")
+plt.ylabel("Average rating")
 
 plt.grid(alpha=0.3)
 
@@ -163,72 +162,6 @@ plt.savefig(
 )
 
 plt.close()
-
-# Animated chart: Average Rating by Publication Year
-
-years = rating_by_year.index.tolist()
-ratings = rating_by_year.values.tolist()
-
-fig = go.Figure()
-
-# Start with the first year
-fig.add_trace(
-    go.Scatter(
-        x=years[:1],
-        y=ratings[:1],
-        mode="lines+markers",
-        name="Average Rating"
-    )
-)
-
-# Create one animation frame for each year
-frames = []
-
-for i in range(1, len(years) + 1):
-    frames.append(
-        go.Frame(
-            data=[
-                go.Scatter(
-                    x=years[:i],
-                    y=ratings[:i],
-                    mode="lines+markers"
-                )
-            ],
-            name=str(years[i - 1])
-        )
-    )
-
-fig.frames = frames
-
-# Add the Play button
-fig.update_layout(
-    title="Average Book Rating by Publication Year (1980-2016)",
-    xaxis_title="Publication Year",
-    yaxis_title="Average Rating",
-    xaxis=dict(range=[1980, 2016]),
-    yaxis=dict(range=[3.94, 4.11]),
-    updatemenus=[
-        dict(
-            type="buttons",
-            buttons=[
-                dict(
-                    label="▶ Play",
-                    method="animate",
-                    args=[
-                        None,
-                        {
-                            "frame": {"duration": 250, "redraw": True},
-                            "transition": {"duration": 0},
-                            "fromcurrent": True
-                        }
-                    ]
-                )
-            ]
-        )
-    ]
-)
-
-fig.write_html("figures/animated_publication_year.html")
 
 
 

@@ -273,52 +273,80 @@ Each tag has a unique identifier and name.
 **Conclusion:** The datasets have been checked for missing values, duplicates, invalid numerical values, and rating-count consistency. The data is now ready for exploratory and statistical analysis.
 
 
-## RQ1 — Popularity vs. Appreciation
+## RQ1 — Popularity & ratings
 
 **Research question:** Is there a relationship between the number of ratings a book receives and its average rating?
 
-**Variables:** `work_ratings_count` (popularity) and `average_rating` (appreciation).
+### Data and methods
+The analysis uses two variables from `books.csv`:
+- `work_ratings_count`: the total number of ratings received by each book, used as a measure of popularity.
+- `average_rating`: the average rating of each book, used as a measure of appreciation.
 
-**Methods:**
-- Descriptive statistics using `describe()`.
-- Pearson correlation to assess linear association.
-- Scatter plot with a logarithmic x-axis to visualize the relationship.
-- Spearman correlation to assess monotonic association.
+The analysis includes:
+- Descriptive statistics using `describe()` to summarize the two variables.
+- Pearson correlation to measure the linear association between popularity and ratings.
+- Spearman correlation to measure the monotonic association between the two variables.
+- A scatter plot with a logarithmic x-axis to visualize the relationship.
 
-**Results:**
-- Pearson correlation: **0.045**.
-- Spearman correlation: **0.065**.
-- The scatter plot shows no clear increasing or decreasing trend.
+The logarithmic scale makes it easier to visualize books with very different numbers of ratings.
 
-**Conclusion:** Popularity and appreciation show very weak associations in this dataset. Books receiving more ratings do not necessarily achieve higher average ratings.
+### Results
+The analysis produces the following correlation coefficients:
+- **Pearson correlation: 0.045**
+- **Spearman correlation: 0.065**
 
-**Figure:**
+Both coefficients are close to zero, indicating a negligible association between the number of ratings and average rating.
+The scatter plot does not reveal a clear increasing or decreasing trend.
 
-![Popularity vs Average Rating](figures/popularity_vs_rating.png)
+### Visualization
+![Popularity vs average rating](figures/popularity_vs_rating.png)
+
+The scatter plot represents each book using:
+- **X-axis:** number of ratings received (`work_ratings_count`), displayed on a logarithmic scale.
+- **Y-axis:** average rating (`average_rating`).
+
+The visualization shows that books with different levels of popularity can have similar average ratings.
+
+### Conclusion
+Both Pearson and Spearman correlations indicate a negligible association between popularity and appreciation.
+Therefore, books receiving more ratings do not necessarily achieve higher average ratings.
 
 
-## RQ2 — Rating Distributions
+## RQ2 — Rating distributions
 
 **Research question:** How do readers' rating distributions differ across books?
 
-### Data and Methods
+### Data preparation and validation
 
-The analysis focuses on five variables from `books.csv`:
-- `ratings_1`
-- `ratings_2`
-- `ratings_3`
-- `ratings_4`
-- `ratings_5`
+The analysis uses five variables from `books.csv`:
+- `ratings_1`: number of 1-star ratings.
+- `ratings_2`: number of 2-star ratings.
+- `ratings_3`: number of 3-star ratings.
+- `ratings_4`: number of 4-star ratings.
+- `ratings_5`: number of 5-star ratings.
 
-The total number of ratings was calculated by summing the five categories. The percentage of each rating category was obtained by dividing its count by the total number of ratings.
+Before calculating the rating distributions, the script performs the following checks:
+- Checks for missing values in the five rating columns.
+- Calculates the total number of ratings for each book by summing the five rating counts.
+- Checks whether any books have zero total ratings.
+- Verifies that the calculated totals match `work_ratings_count`.
+- Calculates the percentage of ratings for each star value and each book.
+- Verifies that the five percentages sum to 100% for each book.
 
-The analysis includes:
-- Overall rating distribution from 1 to 5 stars.
-- Percentage of positive ratings (4 and 5 stars).
-- Comparison of rating distributions across individual books.
+### Methods
+The analysis examines both individual book rating distributions and the overall rating distribution.
+
+**1. Individual book rating distribution**
+For each book, the percentage of ratings for each star value (1 to 5) is calculated by dividing the corresponding rating count by the total number of ratings received by that book.
+
+**Percentage = (Ratings for a specific star value / Total ratings for the book) × 100**
+
+**2. Overall rating distribution**
+The overall distribution is calculated by summing the rating counts for each star value across all books.
+Each sum is then divided by the total number of ratings in the dataset and multiplied by 100.
+This approach calculates the overall distribution using all ratings rather than averaging the percentages of individual books.
 
 ### Results
-
 | Rating | Percentage |
 |---|---:|
 | 1 star | 2.25% |
@@ -328,103 +356,122 @@ The analysis includes:
 | 5 stars | 39.86% |
 
 Overall, **73.31% of ratings are 4 or 5 stars**, indicating that positive evaluations dominate the dataset.
-
-However, rating distributions vary across individual books.
-
-### Interactive Visualization
-
-The Streamlit dashboard allows users to select a book by title or author and explore its rating distribution.
-
-For each selected book, a Plotly bar chart displays the percentage of ratings from 1 to 5 stars. The book's average rating is also displayed.
-
-This visualization helps identify differences between books that may not be immediately apparent from their average ratings alone.
-
-### Conclusion
-
-Positive ratings dominate the dataset, with **73.31% of evaluations receiving 4 or 5 stars**. However, rating distributions vary across books, showing that average ratings alone do not fully describe readers' evaluations.
-
----
-
-## RQ3 — Publication Year vs Average Rating
-
-**Research question:** Does a book's original publication year influence its average rating?
-
-### Data Preparation
-The analysis focuses on two variables from `books.csv`:
-- `original_publication_year`: original publication year.
-- `average_rating`: average Goodreads rating.
-
-The original dataset contains **10,000 books**, of which **21 have missing publication years**.
-After excluding these observations, **9,979 books** remained available for analysis.
-All valid publication years were retained for the correlation analysis, while different time ranges were selected for visualization to improve readability.
-
-### Statistical Analysis
-Two correlation coefficients were calculated:
-- **Pearson correlation: 0.016**
-- **Spearman correlation: -0.027**
-Both coefficients are close to zero, indicating a negligible overall linear or monotonic relationship between publication year and average rating.
+However, rating distributions can differ across individual books.
 
 ### Visualizations
 
-#### 1. Publication Year vs Average Rating
-![Publication Year vs Average Rating](figures/publication_year_vs_rating.png)
-A scatter plot was created to examine the relationship between publication year and average rating.
-Only books published from the year 1000 onward were displayed to improve readability. No clear increasing or decreasing trend was observed.
+#### 1. Overall rating distribution
+![Overall rating distribution](figures/overall_rating_distribution.png)
 
-#### 2. Average Rating by Decade
-![Average Rating by Decade](figures/average_rating_by_decade.png)
-Books published from 1800 onward were grouped by decade.
-The chart displays the average rating for each decade, with bubble size representing the number of books.
+A static Matplotlib bar chart illustrates the overall percentage of ratings from 1 to 5 stars.
+The chart shows that 4-star and 5-star ratings account for the largest shares of evaluations.
+
+#### 2. Individual book rating distribution
+An interactive Plotly bar chart illustrates the rating distribution of an individual book.
+
+The Python script uses the first book in the dataset as an example and displays the percentage of ratings for each star value.
+
+The Streamlit dashboard extends this visualization by allowing users to select different books.
+
+### Interactive streamlit dashboard
+The Streamlit dashboard allows users to select a book by title or author and explore its rating distribution.
+
+For each selected book:
+- The percentage of ratings from 1 to 5 stars is calculated.
+- A Plotly bar chart displays the five percentages.
+- The book's average rating is shown separately.
+
+This visualization helps identify differences between books that may not be immediately apparent from their average ratings alone.
+
+### Data export
+A reduced dataset containing only the variables required by the Streamlit dashboard is exported to `data/books_for_app.csv`.
+
+This reduces unnecessary data loading and simplifies the application, while preserving all the information needed for the three research questions.
+
+### Conclusion
+Positive evaluations dominate the dataset, with **73.31% of ratings receiving 4 or 5 stars**.
+
+However, rating distributions can vary across books, demonstrating that average ratings alone do not fully describe readers' evaluations.
+
+
+## RQ3 — Publication year
+
+**Research question:** Does a book's original publication year influence its average rating?
+
+### Data preparation
+The analysis uses two variables from `books.csv`:
+- `original_publication_year`: the year in which the book was originally published.
+- `average_rating`: the average Goodreads rating of the book.
+
+The original dataset contains **10,000 books**, of which **21 have missing publication years**.
+After excluding these observations, **9,979 books** remain available for analysis.
+
+All available publication years are included in the correlation analysis, while different time ranges are selected for the visualizations to improve readability.
+
+### Statistical analysis
+The analysis calculates two correlation coefficients:
+- **Pearson correlation: 0.016**
+- **Spearman correlation: -0.027**
+
+Both coefficients are close to zero, indicating a negligible overall linear and monotonic association between publication year and average rating.
+
+### Visualizations
+
+#### 1. Publication year vs average rating
+![Publication year vs average rating](figures/publication_year_vs_rating.png)
+
+A scatter plot illustrates the relationship between original publication year and average rating.
+Each point represents a book. The visualization includes only books published from the year 1000 onward to improve readability.
+The scatter plot does not reveal a clear increasing or decreasing trend.
+
+#### 2. Average rating by decade
+![Average rating by decade](figures/average_rating_by_decade.png)
+
+Books published from 1800 onward are grouped by decade.
+For each decade, the analysis calculates:
+- The mean of the books' average ratings.
+- The number of books included in that decade.
+
+The bubble chart displays the average rating for each decade, with bubble size representing the number of books.
 Average ratings remain relatively stable, generally around 4 stars. Earlier decades contain fewer books, so their averages should be interpreted with caution.
 
-#### 3. Average Rating by Publication Year (1980–2016)
-![Average Rating by Publication Year](figures/average_rating_by_year.png)
-A line chart displays annual average ratings between 1980 and 2016.
-The year 2017 was excluded from this visualization because it contains only 11 books, although it remains included in the correlation analysis.
-Some fluctuations are observed, but no consistent increasing or decreasing trend emerges.
+#### 3. Average rating by publication year (1980–2016)
+![Average rating by publication year](figures/average_rating_by_year.png)
 
-### Animated Publication Year Chart
-An interactive Plotly animation was created to show how average ratings evolve across publication years from 1980 to 2016.
+A line chart illustrates the average rating for each publication year between 1980 and 2016.
+For each year, the analysis calculates the mean of the books' average ratings and the number of books.
 
-**[Open the animated chart](figures/animated_publication_year.html)**
+The year 2017 is excluded from this visualization because it contains only 11 books, although it remains included in the correlation analysis.
 
-The animation includes a Play button that progressively displays the annual data.
+Some fluctuations are visible, but no consistent increasing or decreasing trend emerges.
 
-This visualization was retained as part of the exploratory analysis but was not included in the Streamlit dashboard to keep the interface simple.
+### Interactive streamlit dashboard
+The Streamlit dashboard provides an interactive Plotly line chart to explore average ratings across publication years.
 
-
-### Interactive Dashboard
-An interactive Plotly line chart was implemented in Streamlit to explore the relationship between publication year and average rating.
 Users can:
 - Select a publication-year interval using a slider.
 - Group the data by individual year or decade.
 - Explore average ratings over time.
 - View the number of books included in each period.
-For each selected year or decade, the dashboard calculates the mean of the books' average ratings and the number of books.
-The Pearson and Spearman correlations remain fixed because they refer to the full dataset with available publication years.
 
-### Key Findings
+For each selected year or decade, the dashboard calculates the mean of the books' average ratings and the number of books.
+
+Pearson and Spearman correlations are dynamically calculated using the books within the selected publication period.
+These coefficients update when the user changes the interval, allowing the relationship between publication year and average rating to be explored across different time ranges.
+The overall correlations reported in the statistical analysis section refer to all books with available publication years.
+
+### Key findings
 - Publication year has a negligible overall correlation with average rating.
 - Average ratings remain relatively stable across decades.
 - Annual fluctuations exist, but no consistent temporal trend emerges.
 - The number of books varies across publication periods, affecting the interpretation of group averages.
 
-### Limitation
+### Limitations
 The Goodbooks-10k dataset is not representative of all published books.
-Furthermore, the analysis uses book-level average ratings rather than individual reader ratings. Each book contributes equally to the yearly and decadal averages, regardless of how many ratings it received.
+
+Furthermore, the analysis uses book-level average ratings rather than individual reader ratings. Each book contributes equally to the yearly and decadal averages, regardless of how many ratings it receives.
 
 ### Conclusion
-There is no clear evidence of a strong overall relationship between a book's original publication year and its average Goodreads rating.
+The analysis does not reveal a strong overall association between a book's original publication year and its average Goodreads rating.
+
 Older books are not systematically rated higher or lower than more recently published books in this dataset.
-
-
-
-
-
-
-
-
-
-
-
-

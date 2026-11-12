@@ -240,7 +240,7 @@ elif page == "Rating distributions":
     """)
 
     
-# Page 4: Publication Year
+# Page 4: Publication year
 elif page == "Publication year":
 
     st.title("Publication year")
@@ -248,19 +248,6 @@ elif page == "Publication year":
     st.write(
         "Does publication year influence average ratings?"
     )
-
-    st.divider()
-
-    # Display correlations calculated on the full dataset
-    col1, col2 = st.columns(2)
-
-    with col1:
-        with st.container(border=True):
-            st.metric("Pearson correlation", "0.016")
-
-    with col2:
-        with st.container(border=True):
-            st.metric("Spearman correlation", "-0.027")
 
     st.divider()
 
@@ -290,6 +277,48 @@ elif page == "Publication year":
             year_range[1]
         )
     ].copy()
+
+    # Calculate correlations for the selected period
+    if filtered_books["original_publication_year"].nunique() > 1:
+
+        pearson_corr = filtered_books["original_publication_year"].corr(
+            filtered_books["average_rating"]
+        )
+
+        spearman_corr = filtered_books["original_publication_year"].corr(
+            filtered_books["average_rating"],
+            method="spearman"
+        )
+
+        pearson_value = f"{pearson_corr:.3f}"
+        spearman_value = f"{spearman_corr:.3f}"
+
+    else:
+        pearson_value = "N/A"
+        spearman_value = "N/A"
+
+
+
+
+
+    # Display correlations for the selected period
+    col1, col2 = st.columns(2)
+
+    with col1:
+        with st.container(border=True):
+            st.metric("Pearson correlation", pearson_value)
+
+    with col2:
+        with st.container(border=True):
+            st.metric("Spearman correlation", spearman_value)
+
+    st.caption(
+        "Correlations are calculated using books published "
+        "within the selected period."
+    )
+
+    st.divider()
+
 
     # Allow users to choose how to group the data
     grouping = st.radio(
@@ -337,16 +366,15 @@ elif page == "Publication year":
 
     st.plotly_chart(fig, use_container_width=True)
 
-    st.caption(
-        "Correlation coefficients refer to the full dataset. "
-        "The chart updates according to the selected publication period."
-    )
 
     st.markdown("""
     **Conclusions**
 
-    Both Pearson (0.016) and Spearman (-0.027) correlations are close to zero, 
-    indicating a negligible relationship between publication year and average rating. 
-    Therefore, older and more recently published books do not show a clear 
-    overall difference in their average ratings.
+    The correlation coefficients update according to the selected publication period.
+    Their values indicate the strength of the linear and monotonic associations
+    between publication year and average rating within that interval.
+
+    The overall analysis of the full dataset shows negligible correlations,
+    suggesting no clear general relationship between publication year
+    and average rating.
     """)
